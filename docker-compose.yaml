@@ -4,23 +4,11 @@ services:
     image: ruimarinho/bitcoin-core
     container_name: btc
     restart: always
-    expose:
-      - "8333"
-      - "28333"
-      - "28332"
-      - "18333"
-      - "18332"
-      - "18532"
     ports:
-      - "8333:8333"
-      - "28333:28333"
-      - "28332:28332"
-      - "18333:18333"
-      - "18332:18332"
-      - "18443:18443"
+      - 8332:8332
     volumes:
-      - ./bitcoind/bitcoin.conf:/bitcoin/.bitcoin/bitcoin.conf
-      - bitcoin:/bitcoin/.bitcoin/ # data persistence
+      - ./bitcoind/bitcoin.conf:/home/bitcoin/.bitcoin/bitcoin.conf
+      - bitcoin:/home/bitcoin/.bitcoin/ # data persistence
 
 
   lnd:
@@ -32,9 +20,9 @@ services:
       - "9009:9735"
       - "9735:9735"
     volumes:
-      - ./lnd/lnd.conf:/lnd/.lnd/lnd.conf
-      - bitcoin:/lnd/.bitcoin/
-      - lnd:/lnd/.lnd/ # data persistence
+      - ./lnd/lnd.conf:/home/lnd/.lnd/lnd.conf
+      - bitcoin:/home/lnd/.bitcoin/
+      - lnd:/home/lnd/.lnd/ # data persistence
     command:
       --noseedbackup
       --debuglevel=debug
