@@ -5,7 +5,9 @@ services:
     container_name: btc
     restart: always
     ports:
-      - 8332:8332
+      - 18332:18332
+      - 28332:28332
+      - 28333:28333
     volumes:
       - ./bitcoind/bitcoin.conf:/home/bitcoin/.bitcoin/bitcoin.conf
       - bitcoin:/home/bitcoin/.bitcoin/ # data persistence
@@ -20,33 +22,9 @@ services:
       - "9009:9735"
       - "9735:9735"
     volumes:
-      - ./lnd/lnd.conf:/home/lnd/.lnd/lnd.conf
-      - bitcoin:/home/lnd/.bitcoin/
-      - lnd:/home/lnd/.lnd/ # data persistence
-    command:
-      --noseedbackup
-      --debuglevel=debug
-      --maxpendingchannels=10
-      --rpclisten=0.0.0.0:10009
-      --color=#4126a7
-      --alias=LND
-      --bitcoin.active
-      --bitcoin.testnet
-      --bitcoin.node=bitcoind
-      --bitcoind.rpchost=btc
-      --bitcoind.rpcuser=test
-      --bitcoind.rpcpass=test
-      --bitcoind.zmqpubrawblock=tcp://btc:28332
-      --bitcoind.zmqpubrawtx=tcp://btc:28333
-      --externalip=88.135.143.213
-      --tlsextraip=88.135.143.213
-      --adminmacaroonpath=/lnd/.lnd/admin.macaroon
-      --readonlymacaroonpath=/lnd/.lnd/readonly.macaroon
-      --invoicemacaroonpath=/lnd/.lnd/invoice.macaroon
-#      --autopilot.active
-#      --autopilot.maxchannels=5
-#      --autopilot.allocation=0.6
+      - ./lnd/lnd.conf:/root/.lnd/lnd.conf
+      - bitcoin:/home/bitcoin/.bitcoin/ 
+      - bitcoin:/root/.lnd/
 
 volumes:
   bitcoin:
-  lnd:
